@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTX 5060</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background: #f4f4f4; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+        
+        header { 
+            background: #1a2b3c; 
+            color: white; 
+            padding: 20px 30px; 
+            border-bottom: 4px solid #ff9900; 
+        }
+        header h1 { margin-bottom: 10px; }
+        header form { margin: 15px 0; }
+        header input { 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            width: 60%; 
+            max-width: 500px; 
+        }
+        header button { 
+            padding: 10px 20px; 
+            background: #ff9900; 
+            border: 2px solid #cc7a00; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        header button:hover { background: #cc7a00; color: white; }
+        header ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 20px; 
+            margin-top: 15px; 
+            padding-top: 15px; 
+            border-top: 1px solid #3a4a5a; 
+        }
+        header ul li a { 
+            color: white; 
+            text-decoration: none; 
+            padding: 5px 10px; 
+            border: 1px solid transparent; 
+            border-radius: 4px; 
+        }
+        header ul li a:hover { 
+            background: #ff9900; 
+            color: #1a2b3c; 
+            border-color: #cc7a00; 
+        }
+
+        main { 
+            flex: 1; 
+            padding: 30px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            width: 100%; 
+        }
+        .product-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 40px; 
+            background: white; 
+            padding: 30px; 
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+        }
+
+        .gallery { flex: 1; min-width: 300px; }
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 15px;
+            border: 2px solid #1a2b3c;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .main-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .main-image img { width: 100%; height: 100%; object-fit: cover; }
+        .main-image:target { opacity: 1; z-index: 1; }
+        #img1 { opacity: 1; z-index: 1; }
+        
+        .thumbnail-list { 
+            display: flex; 
+            gap: 10px; 
+            list-style: none; 
+            flex-wrap: wrap; 
+        }
+        .thumbnail-list li { 
+            flex: 1 1 80px; 
+            max-width: 100px; 
+            border: 2px solid transparent;
+            border-radius: 5px; 
+            overflow: hidden; 
+            transition: all 0.3s ease;
+        }
+        .thumbnail-list li:hover {
+            border-color: #ff9900;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .thumbnail-list li a { display: block; }
+        .thumbnail-list img { width: 100%; display: block; }
+        .thumbnail-list li:hover img { transform: scale(1.1); }
+
+        .product-info { flex: 1; min-width: 300px; }
+        .product-info h2 { 
+            font-size: 2em; 
+            margin-bottom: 15px; 
+            border-bottom: 2px solid #ff9900; 
+            padding-bottom: 10px; 
+        }
+        .specs { 
+            background: #f9f9f9; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 25px 0; 
+            list-style-position: inside; 
+        }
+        .specs li { padding: 8px 0; border-bottom: 1px dashed #ccc; }
+        .specs li:last-child { border-bottom: none; }
+        .description { margin: 25px 0; padding: 15px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .add-to-cart { 
+            background: #ff9900; 
+            color: #1a2b3c; 
+            border: 3px solid #cc7a00; 
+            padding: 15px 40px; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            margin: 20px 0; 
+        }
+        .add-to-cart:hover { background: #1a2b3c; color: #ff9900; border-color: #ff9900; }
+        .extra-info { 
+            margin-top: 30px; 
+            padding: 20px; 
+            background: #eef7ff; 
+            border-left: 5px solid #1a2b3c; 
+            border-radius: 5px; 
+        }
+        .rating { color: #ff9900; font-weight: bold; margin-bottom: 10px; }
+
+        footer { 
+            background: #1a2b3c; 
+            color: white; 
+            text-align: center; 
+            padding: 25px; 
+            margin-top: 30px; 
+            border-top: 4px solid #ff9900; 
+        }
+        footer p { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Electronics</h1>
+        <form action="#">
+            <input type="search" size="80" placeholder="Поиск...">
+            <button type="submit">Поиск</button>
+        </form>
+        <ul>
+            <li><a href="test.html">Главная</a></li>
+            <li><a href="index.html#catalog">Каталог</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+            <li><a href="#cart">Корзина</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="product-container">
+            <div class="gallery">
+                <div class="main-image-container">
+                    <div class="main-image" id="img1"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/f2421276e6caafc1e5666f1567c0a137/0783077cf860895ce4d2d105c675df02a8e49ca2e3787a2c2cba6899ee131331.jpg.webp" alt="вид 1"></div>
+                    <div class="main-image" id="img2"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/bb5da54857e6941f5b477263bcc40f80/56e3b994b7e601c556344ba68856a23c663117b933a1a5c6155166ca28841c05.jpg.webp" alt="вид 2"></div>
+                    <div class="main-image" id="img3"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/b99aa22ecb5fb8982bd13909d15dd54c/f7392b717320c55d5a92c07bb32564e1e832ea7bb73ce04081e5c9f1e7d85168.jpg.webp" alt="вид 3"></div>
+                    <div class="main-image" id="img4"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/b330bc7bbddfae4859496641285c9ff3/74c217658899944d4758f93e1efcc91508abfd7e7f7e30bc49e9dbd1b74e3912.jpg.webp" alt="вид 4"></div>
+                </div>
+                <ul class="thumbnail-list">
+                    <li><a href="#img1"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/f2421276e6caafc1e5666f1567c0a137/0783077cf860895ce4d2d105c675df02a8e49ca2e3787a2c2cba6899ee131331.jpg.webp" alt="вид 1"></a></li>
+                    <li><a href="#img2"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/bb5da54857e6941f5b477263bcc40f80/56e3b994b7e601c556344ba68856a23c663117b933a1a5c6155166ca28841c05.jpg.webp" alt="вид 2"></a></li>
+                    <li><a href="#img3"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/b99aa22ecb5fb8982bd13909d15dd54c/f7392b717320c55d5a92c07bb32564e1e832ea7bb73ce04081e5c9f1e7d85168.jpg.webp" alt="вид 3"></a></li>
+                    <li><a href="#img4"><img src="https://c.dns-shop.ru/thumb/st1/fit/500/500/b330bc7bbddfae4859496641285c9ff3/74c217658899944d4758f93e1efcc91508abfd7e7f7e30bc49e9dbd1b74e3912.jpg.webp" alt="вид 4"></a></li>
+                </ul>
+            </div>
+            <div class="product-info">
+                <h2>Palit RTX 5060 Dual</h2>
+                <ul class="specs">
+                    <li><b>Память:</b> 8 ГБ GDDR7</li>
+                    <li><b>Шина:</b> 128 бит</li>
+                    <li><b>Частота:</b> 2280-2497 МГц</li>
+                    <li><b>Интерфейс:</b> PCIe 5.0</li>
+                    <li><b>Разъемы:</b> 3x DP, HDMI</li>
+                </ul>
+                <div class="description">
+                    <h3>Описание</h3>
+                    <p>Игровая видеокарта на архитектуре Blackwell с трассировкой лучей.</p>
+                </div>
+                <button class="add-to-cart">В корзину</button>
+                <div class="extra-info">
+                    <div class="rating">★★★★★ 4.9 (35)</div>
+                    <p>Доставка: завтра</p>
+                    <p>Гарантия: 3 года</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p id="about">Хамрин Максим Юрьевич</p>
+        <p id="contacts">hamrin.max@gmail.com</p>
+        <p>2018-2026</p>
+    </footer>
+</body>
+</html>
